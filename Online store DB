@@ -1,0 +1,66 @@
+-- Create a new database named 'OnlineStoreDB'
+CREATE DATABASE OnlineStoreDB;
+
+-- Use the 'OnlineStoreDB' database for subsequent queries
+USE OnlineStoreDB;
+
+-- Create a table to store customer information
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100) UNIQUE,
+    RegistrationDate DATE
+);
+
+-- Create a table to store product information
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(100),
+    Price DECIMAL(10, 2),
+    StockQuantity INT
+);
+
+-- Create a table to store order information
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+-- Create a table to store order details (items in each order)
+CREATE TABLE OrderDetails (
+    OrderDetailID INT PRIMARY KEY,
+    OrderID INT,
+    ProductID INT,
+    Quantity INT,
+    TotalPrice DECIMAL(10, 2),
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Insert sample data into the 'Customers' table
+INSERT INTO Customers (CustomerID, FirstName, LastName, Email, RegistrationDate)
+VALUES
+    (1, 'John', 'Doe', 'john.doe@email.com', '2022-01-01'),
+    (2, 'Jane', 'Smith', 'jane.smith@email.com', '2022-01-02');
+
+-- Insert sample data into the 'Products' table
+INSERT INTO Products (ProductID, ProductName, Price, StockQuantity)
+VALUES
+    (1, 'Laptop', 899.99, 20),
+    (2, 'Smartphone', 499.99, 30);
+
+-- Insert sample data into the 'Orders' table
+INSERT INTO Orders (OrderID, CustomerID, OrderDate)
+VALUES
+    (1, 1, '2022-02-01'),
+    (2, 2, '2022-02-02');
+
+-- Insert sample data into the 'OrderDetails' table
+INSERT INTO OrderDetails (OrderDetailID, OrderID, ProductID, Quantity, TotalPrice)
+VALUES
+    (1, 1, 1, 2, 1799.98),
+    (2, 1, 2, 3, 1499.97),
+    (3, 2, 1, 1, 899.99);
